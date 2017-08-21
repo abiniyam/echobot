@@ -1,8 +1,8 @@
-import requests
+import requests,json
 import datetime
 
 token = "446182234:AAGXRCgFrB_MV92HrZqx58oarqQwmwR0rLw"
-url = "https://api.telegram.org/bot{}/".format(token)
+URL = "https://api.telegram.org/bot{}/".format(token)
 
 def get_url(url):
     response = requests.get(url)
