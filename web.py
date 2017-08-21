@@ -36,15 +36,17 @@ def send_message(text, chat_id):
     url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
     get_url(url)
 
-def main():
-    last_textchat = (None, None)
+def main():  
+    update_id = last_update(get_updates_json(url))['update_id']
     while True:
-        text, chat = get_last_chat_id_and_text(get_updates())
-        if (text, chat) != last_textchat:
-            send_message(text, chat)
-            last_textchat = (text, chat)
-        time.sleep(0.5)
+        if update_id == last_update(get_updates_json(url))['update_id']:
+           send_mess(get_chat_id(last_update(get_updates_json(url))), 'test')
+           update_id += 1
+    sleep(1)
     
 
-text, chat = get_last_chat_id_and_text(get_updates())
-send_message(text, chat)
+#text, chat = get_last_chat_id_and_text(get_updates())
+#send_message(text, chat)
+
+if __name__ == '__main__':  
+    main()
