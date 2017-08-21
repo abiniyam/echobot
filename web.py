@@ -1,52 +1,26 @@
-import json 
-import requests
-import time
+import json,requests,time
 
-TOKEN = "446182234:AAGXRCgFrB_MV92HrZqx58oarqQwmwR0rLw"
-URL = "https://api.telegram.org/bot{}/".format(TOKEN)
+token = "446182234:AAGXRCgFrB_MV92HrZqx58oarqQwmwR0rLw"
+url = "https://api.telegram.org/bot{}/".format(token)
 
+def get_updates_json(request):
+    response = requests.get(request + 'getUpdates')
+    return response.json()
 
-def get_url(url):
-    response = requests.get(url)
-    content = response.content.decode("utf8")
-    return content
+def last_update(data):
+    results = data['result']
+    total_updates = len(results) - 1
+    return results[total_updates]
 
+def get_chat_id(update):
+    chat_id = update['message']['chat']['id']
+    return chat_id
 
-def get_json_from_url(url):
-    content = get_url(url)
-    js = json.loads(content)
-    return js
+def send_mess(chat, text):
+    params = {'chat_id': chat, 'text': text}
+    response = requests.post(url + 'sendMessage', data=params)
+    return response
 
+chat_id = get_chat_id(last_update(get_updates_json(url)))
 
-def get_updates():
-    url = URL + "getUpdates"
-    js = get_json_from_url(url)
-    return js
-
-
-def get_last_chat_id_and_text(updates):
-    num_updates = len(updates["result"])
-    last_update = num_updates - 1
-    text = updates["result"][last_update]["message"]["text"]
-    chat_id = updates["result"][last_update]["message"]["chat"]["id"]
-    return (text, chat_id)
-
-
-def send_message(text, chat_id):
-    url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
-    get_url(url)
-
-def main():  
-    update_id = last_update(get_updates_json(url))['update_id']
-    while True:
-        if update_id == last_update(get_updates_json(url))['update_id']:
-           send_mess(get_chat_id(last_update(get_updates_json(url))), 'test')
-           update_id += 1
-    sleep(1)
-    
-
-#text, chat = get_last_chat_id_and_text(get_updates())
-#send_message(text, chat)
-
-if __name__ == '__main__':  
-    main()
+send_mess(chat_id, 'Your message goes here')
