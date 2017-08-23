@@ -2,7 +2,6 @@ from telegram.ext import Updater, CommandHandler
 
 token = "306226834:AAG23HIKPbvhSKsFpMyIREdfUOnArEDUwRs"
 URL = "https://api.telegram.org/bot{}/".format(token)
-PORT = int(os.environ.get('PORT', '5000'))
 
 def start(bot, update):
     update.message.reply_text('Hello World!')
