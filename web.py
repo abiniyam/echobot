@@ -1,6 +1,6 @@
 from telegram.ext import Updater, CommandHandler
 
-token = "446182234:AAGXRCgFrB_MV92HrZqx58oarqQwmwR0rLw"
+token = "306226834:AAG23HIKPbvhSKsFpMyIREdfUOnArEDUwRs"
 URL = "https://api.telegram.org/bot{}/".format(token)
 
 def start(bot, update):
